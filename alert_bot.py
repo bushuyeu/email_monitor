@@ -1,5 +1,9 @@
 import os  # For accessing environment variables
 import requests  # HTTP client to send request to Telegram API
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 def alert(message: str) -> None:
     """Send a message to a Telegram chat using the Telegram bot API."""

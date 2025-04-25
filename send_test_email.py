@@ -2,6 +2,10 @@ import os  # Access environment variables
 import smtplib  # SMTP client to send email
 from email.message import EmailMessage  # Used to create the email message
 import logging  # Logging for observability
+from dotenv import load_dotenv  # Load environment variables from .env file
+
+# Load environment variables from .env file
+load_dotenv()
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)  # Logger for this module

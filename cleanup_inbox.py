@@ -2,6 +2,10 @@ import os  # Access environment variables to fetch credentials
 import imaplib  # Interact with IMAP server for mailbox operations
 import logging  # Use logging for tracking operations and errors
 from datetime import datetime, timedelta  # Handle time-based retention logic
+from dotenv import load_dotenv  # Load environment variables from .env file
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Set up basic logging configuration
 logging.basicConfig(level=logging.INFO)

@@ -3,6 +3,10 @@ import imaplib  # For IMAP email access
 import email  # To parse email messages
 import logging  # To record logs
 from datetime import datetime, timedelta  # For checking time window
+from dotenv import load_dotenv  # For loading environment variables from .env file
+
+# Load environment variables from .env file
+load_dotenv()
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)  # Logger for this module
