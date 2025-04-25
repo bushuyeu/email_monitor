@@ -8,7 +8,11 @@ from dotenv import load_dotenv  # Load environment variables from .env file
 load_dotenv()
 
 # Set up basic logging configuration
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S"
+)
 logger = logging.getLogger(__name__)  # Create logger specific to this script
 
 # Constants

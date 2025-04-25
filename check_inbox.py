@@ -8,7 +8,11 @@ from dotenv import load_dotenv  # For loading environment variables from .env fi
 # Load environment variables from .env file
 load_dotenv()
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S"
+)
 logger = logging.getLogger(__name__)  # Logger for this module
 
 IMAP_SERVER = "mail.mxlogin.com"  # MXroute IMAP server
