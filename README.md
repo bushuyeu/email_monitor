@@ -36,7 +36,6 @@ email_health_monitor/
 - Python 3.10 or higher
 - `requests` library
 - `python-dotenv` for environment management
-- `imapclient` and `pyzmail36` for email handling
 
 Install dependencies:
 
