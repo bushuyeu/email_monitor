@@ -1,0 +1,1 @@
+requests  # Used in alert_bot.py to call Telegram Bot API

@@ -1,0 +1,44 @@
+name: Email Health # Name of the GitHub Actions workflow shown in the Actions tab
+
+on: # Defines when this workflow should be triggered
+  schedule: # Scheduled automatic runs
+    - cron: "*/30 * * * *" # Runs every 30 minutes using cron syntax
+  workflow_dispatch: # Allows manual triggering of this workflow from the GitHub UI
+
+jobs: # Defines the jobs that will be run in this workflow
+  email_health_check: # Identifier for the job
+    name: Email Health # Descriptive name of the job
+    runs-on: ubuntu-latest # Specifies the runner environment for the job
+
+    env: # Environment variables available to all steps in this job
+      MXROUTE_EMAIL: ${{ secrets.MXROUTE_EMAIL }}
+      MXROUTE_PASSWORD: ${{ secrets.MXROUTE_PASSWORD }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
+    steps: # List of steps to execute in this job
+        - name: Checkout repository # Pulls down the latest code from the repository
+        uses: actions/checkout@v3 # Official GitHub Action to check out code
+
+        # Prepares the Python environment
+        - name: Set up Python
+        uses: actions/setup-python@v4 # Python installer tool (version 4)
+        with: # Additional configuration options
+            python-version: "3.11" # Python version to use
+
+        - name: Install dependencies # Installs all required Python packages
+        run: | # Run the following shell commands
+          python -m pip install --upgrade pip  # Ensure pip is the latest version
+          pip install -r email_monitor/requirements.txt  # Install dependencies listed in requirements.txt
+
+        - name: 🔍 Check MXroute connectivity
+        run: |
+        set -e
+        apt-get update && apt-get install -y netcat
+        nc -vz mail.mxlogin.com 587 || (echo "❌ GitHub runner CANNOT connect to SMTP" && exit 1)
+        nc -vz mail.mxlogin.com 993 || (echo "❌ GitHub runner CANNOT connect to IMAP" && exit 1)
+
+        - name: Run email monitor # 🚦 Runs the email monitoring scripts
+        run: | # Run the following shell commands
+          python email_monitor/send_test_email.py  # Script to test sending email
+          python email_monitor/check_inbox.py  # Script to test receiving and validate inbox health
